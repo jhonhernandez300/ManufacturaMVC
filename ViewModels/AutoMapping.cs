@@ -11,7 +11,8 @@ namespace ManufacturaMVC.ViewModels
     {
         public AutoMapping()
         {
-            CreateMap<CustomerCountries, CustomerCountriesDto>(); 
+            CreateMap<CustomerCountries, CustomerCountriesDto>();
+            CreateMap<CustomerCountriesDto, CustomerCountries>();
         }
     }
 }

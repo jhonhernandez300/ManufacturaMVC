@@ -11,6 +11,7 @@ using ManufacturaMVC.ViewModels;
 
 namespace ManufacturaMVC.Controllers
 {
+    //[Route("[CustomerCountries]")]
     public class CustomerCountriesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -41,14 +42,16 @@ namespace ManufacturaMVC.Controllers
                 return NotFound();
             }
 
-            var customerCountries = await _context.CustomerCountries
-                .FirstOrDefaultAsync(m => m.CustomerCountry == id);
+            var customerCountries = await _context.CustomerCountries.FirstOrDefaultAsync(m => m.CustomerCountry == id);
+
             if (customerCountries == null)
             {
                 return NotFound();
             }
 
-            return View(customerCountries);
+            var model = _mapper.Map<CustomerCountriesDto>(customerCountries);
+
+            return View(model);
         }
 
         // GET: CustomerCountries/Create
@@ -62,18 +65,18 @@ namespace ManufacturaMVC.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CustomerCountry")] CustomerCountries customerCountries)
+        //public async Task<IActionResult> Create([Bind("CustomerCountries")] CustomerCountries customerCountries)
+        public async Task<IActionResult> Create(CustomerCountriesDto customerCountriesDto)
         {
             if (ModelState.IsValid)
-            {
-                _context.Add(customerCountries);
-                await _context.SaveChangesAsync();
+            {                
+                var customer = _mapper.Map<CustomerCountriesDto, CustomerCountries>(customerCountriesDto);                
+                _context.Add(customer);
+                await _context.SaveChangesAsync();                
                 return RedirectToAction(nameof(Index));
             }
-            return View(customerCountries);
-            /*var weatherReport = _mapper.Map<WeatherReportCreateView, WeatherReport>(WeatherReport);
-            _context.WeatherReport.Add(weatherReport);
-            await _context.SaveChangesAsync(); */
+            
+            return View();
         }
 
         // GET: CustomerCountries/Edit/5
@@ -83,13 +86,19 @@ namespace ManufacturaMVC.Controllers
             {
                 return NotFound();
             }
-
+            
             var customerCountries = await _context.CustomerCountries.FindAsync(id);
+            var model = _mapper.Map<CustomerCountries, CustomerCountriesDto>(customerCountries);
+
             if (customerCountries == null)
             {
                 return NotFound();
             }
-            return View(customerCountries);
+
+            
+
+            return View(model);
+            //return View(customerCountries);
         }
 
         // POST: CustomerCountries/Edit/5
@@ -97,23 +106,22 @@ namespace ManufacturaMVC.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("CustomerCountry")] CustomerCountries customerCountries)
+        //[Route("[CustomerCountries/Edit/{id:string}]")]
+        //public async Task<IActionResult> Edit(string id, [Bind("CustomerCountry")] CustomerCountries customerCountries)
+        public async Task<IActionResult> Edit(string customerCountry, CustomerCountriesDto customerCountriesDto)
+        //public async Task<IActionResult> Edit(string customerCountry, CustomerCountries customerCountries)
         {
-            if (id != customerCountries.CustomerCountry)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
-                {
-                    _context.Update(customerCountries);
-                    await _context.SaveChangesAsync();
+                {                    
+                    var customer = _mapper.Map<CustomerCountriesDto, CustomerCountries>(customerCountriesDto);
+                    _context.Update(customer);
+                    await _context.SaveChangesAsync();                    
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CustomerCountriesExists(customerCountries.CustomerCountry))
+                    if (!CustomerCountriesExists(customerCountriesDto.CustomerCountry))
                     {
                         return NotFound();
                     }
@@ -124,7 +132,9 @@ namespace ManufacturaMVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(customerCountries);
+
+            return View(customerCountriesDto);
+            //return View();
         }
 
         // GET: CustomerCountries/Delete/5

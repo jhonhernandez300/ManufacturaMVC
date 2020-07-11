@@ -29,7 +29,7 @@ namespace ManufacturaMVC
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllersWithViews();            
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnectionString")));
             services.AddAutoMapper(typeof(Startup));
             //services.AddControllers();
@@ -59,8 +59,10 @@ namespace ManufacturaMVC
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=CustomerCountries}/{action=Index}/{id?}");
+                    pattern: "{controller=CustomerCountries}/{action=Index}/{id?}");                
             });
+
+           
         }
     }
 }

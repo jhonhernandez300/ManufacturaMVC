@@ -1,4 +1,5 @@
-﻿@model ManufacturaMVC.Models.CustomerCountries
+﻿@*model ManufacturaMVC.Models.CustomerCountries*@
+@model ManufacturaMVC.ViewModels.CustomerCountriesDto
 
 @{
     ViewData["Title"] = "Details";
@@ -14,6 +15,7 @@
     </dl>
 </div>
 <div>
+    @Model.CustomerCountry
     <a asp-action="Edit" asp-route-id="@Model.CustomerCountry">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

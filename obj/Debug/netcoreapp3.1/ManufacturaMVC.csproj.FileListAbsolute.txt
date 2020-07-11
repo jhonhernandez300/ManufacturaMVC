@@ -2,7 +2,6 @@ C:\Users\Usuario\source\repos\ManufacturaMVC\bin\Debug\netcoreapp3.1\appsettings
 C:\Users\Usuario\source\repos\ManufacturaMVC\bin\Debug\netcoreapp3.1\appsettings.json
 C:\Users\Usuario\source\repos\ManufacturaMVC\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
 C:\Users\Usuario\source\repos\ManufacturaMVC\bin\Debug\netcoreapp3.1\ManufacturaMVC.exe
-C:\Users\Usuario\source\repos\ManufacturaMVC\obj\Debug\netcoreapp3.1\ManufacturaMVC.csprojAssemblyReference.cache
 C:\Users\Usuario\source\repos\ManufacturaMVC\obj\Debug\netcoreapp3.1\ManufacturaMVC.AssemblyInfoInputs.cache
 C:\Users\Usuario\source\repos\ManufacturaMVC\obj\Debug\netcoreapp3.1\ManufacturaMVC.AssemblyInfo.cs
 C:\Users\Usuario\source\repos\ManufacturaMVC\obj\Debug\netcoreapp3.1\ManufacturaMVC.RazorAssemblyInfo.cache
@@ -169,3 +168,9 @@ C:\Users\Usuario\source\repos\ManufacturaMVC\obj\Debug\netcoreapp3.1\Razor\Views
 C:\Users\Usuario\source\repos\ManufacturaMVC\obj\Debug\netcoreapp3.1\Razor\Views\CustomerCountries\Details.cshtml.g.cs
 C:\Users\Usuario\source\repos\ManufacturaMVC\obj\Debug\netcoreapp3.1\Razor\Views\CustomerCountries\Edit.cshtml.g.cs
 C:\Users\Usuario\source\repos\ManufacturaMVC\obj\Debug\netcoreapp3.1\Razor\Views\CustomerCountries\Index.cshtml.g.cs
+C:\Users\Usuario\source\repos\ManufacturaMVC\obj\Debug\netcoreapp3.1\ManufacturaMVC.csprojAssemblyReference.cache
+C:\Users\Usuario\source\repos\ManufacturaMVC\obj\Debug\netcoreapp3.1\Razor\Views\CustomerRegions\Create.cshtml.g.cs
+C:\Users\Usuario\source\repos\ManufacturaMVC\obj\Debug\netcoreapp3.1\Razor\Views\CustomerRegions\Delete.cshtml.g.cs
+C:\Users\Usuario\source\repos\ManufacturaMVC\obj\Debug\netcoreapp3.1\Razor\Views\CustomerRegions\Details.cshtml.g.cs
+C:\Users\Usuario\source\repos\ManufacturaMVC\obj\Debug\netcoreapp3.1\Razor\Views\CustomerRegions\Edit.cshtml.g.cs
+C:\Users\Usuario\source\repos\ManufacturaMVC\obj\Debug\netcoreapp3.1\Razor\Views\CustomerRegions\Index.cshtml.g.cs
