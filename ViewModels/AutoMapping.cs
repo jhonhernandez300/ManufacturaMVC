@@ -13,6 +13,14 @@ namespace ManufacturaMVC.ViewModels
         {
             CreateMap<CustomerCountries, CustomerCountriesDto>();
             CreateMap<CustomerCountriesDto, CustomerCountries>();
+
+            var config = new MapperConfiguration(cfg => {
+                cfg.CreateMap<CustomerCountriesDto, CustomerCountries>()
+                    .ReverseMap()
+                        .ForMember(CustomerCountriesDto => CustomerCountriesDto.CustomerCountry, expression => 
+                                                                        expression.MapFrom(model => model.CustomerCountry));
+                        
+            });
         }
     }
 }

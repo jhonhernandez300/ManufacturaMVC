@@ -93,9 +93,7 @@ namespace ManufacturaMVC.Controllers
             if (customerCountries == null)
             {
                 return NotFound();
-            }
-
-            
+            }            
 
             return View(model);
             //return View(customerCountries);
@@ -105,23 +103,49 @@ namespace ManufacturaMVC.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        //[Route("[CustomerCountries/Edit/{id:string}]")]
+        [ValidateAntiForgeryToken]        
         //public async Task<IActionResult> Edit(string id, [Bind("CustomerCountry")] CustomerCountries customerCountries)
-        public async Task<IActionResult> Edit(string customerCountry, CustomerCountriesDto customerCountriesDto)
-        //public async Task<IActionResult> Edit(string customerCountry, CustomerCountries customerCountries)
+        public async Task<IActionResult> Edit(string CustomerCountry, CustomerCountriesDto customerCountriesDto)
         {
+            if (CustomerCountry != customerCountriesDto.CustomerCountry)
+            {
+                return NotFound();
+            }
+
             if (ModelState.IsValid)
             {
                 try
-                {                    
-                    var customer = _mapper.Map<CustomerCountriesDto, CustomerCountries>(customerCountriesDto);
-                    _context.Update(customer);
-                    await _context.SaveChangesAsync();                    
+                {
+                    //Llega nulo
+                    /*var CustomerCountries = _mapper.Map<CustomerCountriesDto, CustomerCountries>(customerCountriesDto);
+                    var country = _context.CustomerCountries.FirstOrDefault(c => c.CustomerCountry == CustomerCountries.CustomerCountry);
+                    _context.Update(country);
+                    await _context.SaveChangesAsync(); */
+
+                    //No hace nada
+                    /*var CustomerCountries = _mapper.Map<CustomerCountriesDto, CustomerCountries>(customerCountriesDto);                    
+                    _context.Update(CustomerCountries);                    
+                    await _context.SaveChangesAsync(); */
+
+                    //No hace nada
+                    /*var country = new CustomerCountries
+                    {
+                        CustomerCountry= customerCountriesDto.CustomerCountry
+                    };
+                    _context.Update(country);
+                    await _context.SaveChangesAsync(); */
+
+                    //No hace nada
+                    var country = new CustomerCountries
+                    {
+                        CustomerCountry = CustomerCountry
+                    };
+                    _context.Update(country);
+                    await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CustomerCountriesExists(customerCountriesDto.CustomerCountry))
+                    if (!CustomerCountriesExists(customerCountriesDto.CustomerCountry))                    
                     {
                         return NotFound();
                     }
@@ -132,9 +156,7 @@ namespace ManufacturaMVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-
             return View(customerCountriesDto);
-            //return View();
         }
 
         // GET: CustomerCountries/Delete/5
