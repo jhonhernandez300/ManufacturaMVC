@@ -9,7 +9,7 @@ namespace ManufacturaMVC.Models
     public class RawMaterials
     {
         [Key]
-        public int RawMaterialsId { get; set; }
+        public int Id { get; set; }
 
         public int Amount { get; set; }
 

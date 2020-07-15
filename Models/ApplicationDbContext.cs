@@ -46,24 +46,24 @@ namespace ManufacturaMVC.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Categories>().HasKey(m => m.CategoryId);
-            modelBuilder.Entity<CustomerCities>().HasKey(m => m.CustomerCity);
-            modelBuilder.Entity<CustomerCountries>().HasKey(m => m.CustomerCountry);
-            modelBuilder.Entity<CustomerRegions>().HasKey(m => m.CustomerRegion);
-            modelBuilder.Entity<Customers>().HasKey(m => m.CustomerId);
-            modelBuilder.Entity<Employees>().HasKey(m => m.EmployeeId);
-            modelBuilder.Entity<Payments>().HasKey(m => m.PaymentId);
-            modelBuilder.Entity<ProductDetails>().HasKey(m => m.ProductDetailsId);
-            modelBuilder.Entity<ProductionOrders>().HasKey(m => m.ProductionOrdersId);
-            modelBuilder.Entity<Products>().HasKey(m => m.ProductId);
-            modelBuilder.Entity<RawMaterials>().HasKey(m => m.RawMaterialsId);
-            modelBuilder.Entity<SaleInvoices>().HasKey(m => m.SaleInvoiceId);
-            modelBuilder.Entity<Shippings>().HasKey(m => m.ShippingId);
-            modelBuilder.Entity<SuplierCities>().HasKey(m => m.SuplierCity);
-            modelBuilder.Entity<SuplierCountries>().HasKey(m => m.SuplierCountry);
-            modelBuilder.Entity<SuplierInvoices>().HasKey(m => m.SuplierInvoiceId);
-            modelBuilder.Entity<SuplierRegions>().HasKey(m => m.SuplierRegion);
-            modelBuilder.Entity<Supliers>().HasKey(m => m.SuplierId);
+            modelBuilder.Entity<Categories>().HasKey(m => m.Id);
+            modelBuilder.Entity<CustomerCities>().HasKey(m => m.Id);
+            modelBuilder.Entity<CustomerCountries>().HasKey(m => m.Id);
+            modelBuilder.Entity<CustomerRegions>().HasKey(m => m.Id);
+            modelBuilder.Entity<Customers>().HasKey(m => m.Id);
+            modelBuilder.Entity<Employees>().HasKey(m => m.Id);
+            modelBuilder.Entity<Payments>().HasKey(m => m.Id);
+            modelBuilder.Entity<ProductDetails>().HasKey(m => m.Id);
+            modelBuilder.Entity<ProductionOrders>().HasKey(m => m.Id);
+            modelBuilder.Entity<Products>().HasKey(m => m.Id);
+            modelBuilder.Entity<RawMaterials>().HasKey(m => m.Id);
+            modelBuilder.Entity<SaleInvoices>().HasKey(m => m.Id);
+            modelBuilder.Entity<Shippings>().HasKey(m => m.Id);
+            modelBuilder.Entity<SuplierCities>().HasKey(m => m.Id);
+            modelBuilder.Entity<SuplierCountries>().HasKey(m => m.Id);
+            modelBuilder.Entity<SuplierInvoices>().HasKey(m => m.Id);
+            modelBuilder.Entity<SuplierRegions>().HasKey(m => m.Id);
+            modelBuilder.Entity<Supliers>().HasKey(m => m.Id);
 
             modelBuilder.Entity<Products>()
             .HasOne(p => p.Category)

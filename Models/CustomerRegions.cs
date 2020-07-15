@@ -9,6 +9,8 @@ namespace ManufacturaMVC.Models
     public class CustomerRegions
     {
         [Key]
+        public int Id { get; set; }
+
         [StringLength(50, ErrorMessage = "Longitud máxima para la región: 50")]
         public string CustomerRegion { get; set; }
 

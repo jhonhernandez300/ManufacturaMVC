@@ -9,7 +9,7 @@ namespace ManufacturaMVC.Models
     public class Payments
     {
         [Key]
-        public int PaymentId { get; set; }
+        public int Id { get; set; }
 
         public string Type { get; set; }
 

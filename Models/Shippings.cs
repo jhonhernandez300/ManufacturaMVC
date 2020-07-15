@@ -9,7 +9,7 @@ namespace ManufacturaMVC.Models
     public class Shippings
     {
         [Key]
-        public int ShippingId { get; set; }
+        public int Id { get; set; }
 
         public DateTime InitialDateAndTime { get; set; }
 

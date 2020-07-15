@@ -9,7 +9,7 @@ namespace ManufacturaMVC.Models
     public class Customers
     {
         [Key]
-        public int CustomerId { get; set; }
+        public int Id { get; set; }
 
         public string FirstName { get; set; }
 

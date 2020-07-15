@@ -10,7 +10,7 @@ namespace ManufacturaMVC.Models
     public class SuplierInvoices
     {
         [Key]
-        public int SuplierInvoiceId { get; set; }
+        public int Id { get; set; }
 
         public DateTime DateAndTime { get; set; }
 

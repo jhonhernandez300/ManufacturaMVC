@@ -9,7 +9,7 @@ namespace ManufacturaMVC.Models
     public class ProductionOrders
     {
         [Key]
-        public int ProductionOrdersId { get; set; }
+        public int Id { get; set; }
 
         public int Amount { get; set; }
 

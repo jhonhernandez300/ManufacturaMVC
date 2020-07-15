@@ -4,14 +4,16 @@ using ManufacturaMVC.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ManufacturaMVC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200714221642_CustomerCountries con Id")]
+    partial class CustomerCountriesconId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,7 +23,7 @@ namespace ManufacturaMVC.Migrations
 
             modelBuilder.Entity("ManufacturaMVC.Models.Categories", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("CategoryId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -32,30 +34,25 @@ namespace ManufacturaMVC.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("CategoryId");
 
                     b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("ManufacturaMVC.Models.CustomerCities", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
                     b.Property<string>("CustomerCity")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("CustomerRegionId")
-                        .HasColumnType("int");
+                    b.Property<string>("CustomerRegion1")
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("PostalCode")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("CustomerCity");
 
-                    b.HasIndex("CustomerRegionId");
+                    b.HasIndex("CustomerRegion1");
 
                     b.ToTable("CustomerCities");
                 });
@@ -78,19 +75,14 @@ namespace ManufacturaMVC.Migrations
 
             modelBuilder.Entity("ManufacturaMVC.Models.CustomerRegions", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("CustomerCountryId")
-                        .HasColumnType("int");
-
                     b.Property<string>("CustomerRegion")
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
-                    b.HasKey("Id");
+                    b.Property<int?>("CustomerCountryId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CustomerRegion");
 
                     b.HasIndex("CustomerCountryId");
 
@@ -99,7 +91,7 @@ namespace ManufacturaMVC.Migrations
 
             modelBuilder.Entity("ManufacturaMVC.Models.Customers", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("CustomerId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -107,8 +99,8 @@ namespace ManufacturaMVC.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CustomerCityId")
-                        .HasColumnType("int");
+                    b.Property<string>("CustomerCity1")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
@@ -125,16 +117,16 @@ namespace ManufacturaMVC.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("CustomerId");
 
-                    b.HasIndex("CustomerCityId");
+                    b.HasIndex("CustomerCity1");
 
                     b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("ManufacturaMVC.Models.Employees", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("EmployeeId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -157,14 +149,14 @@ namespace ManufacturaMVC.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("EmployeeId");
 
                     b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("ManufacturaMVC.Models.Payments", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("PaymentId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -181,7 +173,7 @@ namespace ManufacturaMVC.Migrations
                     b.Property<decimal>("Value")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("Id");
+                    b.HasKey("PaymentId");
 
                     b.HasIndex("SaleInvoiceId");
 
@@ -190,7 +182,7 @@ namespace ManufacturaMVC.Migrations
 
             modelBuilder.Entity("ManufacturaMVC.Models.ProductDetails", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ProductDetailsId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -207,7 +199,7 @@ namespace ManufacturaMVC.Migrations
                     b.Property<int?>("SaleInvoiceId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("ProductDetailsId");
 
                     b.HasIndex("SaleInvoiceId");
 
@@ -216,7 +208,7 @@ namespace ManufacturaMVC.Migrations
 
             modelBuilder.Entity("ManufacturaMVC.Models.ProductionOrders", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ProductionOrdersId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -224,7 +216,7 @@ namespace ManufacturaMVC.Migrations
                     b.Property<int>("Amount")
                         .HasColumnType("int");
 
-                    b.Property<int?>("RawMaterialId")
+                    b.Property<int?>("RawMaterialsId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("TotalCost")
@@ -233,16 +225,16 @@ namespace ManufacturaMVC.Migrations
                     b.Property<decimal>("UnitCost")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("Id");
+                    b.HasKey("ProductionOrdersId");
 
-                    b.HasIndex("RawMaterialId");
+                    b.HasIndex("RawMaterialsId");
 
                     b.ToTable("ProductionOrders");
                 });
 
             modelBuilder.Entity("ManufacturaMVC.Models.Products", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ProductId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -262,13 +254,13 @@ namespace ManufacturaMVC.Migrations
                     b.Property<string>("PicturePath")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ProductDetailId")
+                    b.Property<int?>("ProductDetailsId")
                         .HasColumnType("int");
 
                     b.Property<string>("ProductName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ProductionOrderId")
+                    b.Property<int?>("ProductionOrdersId")
                         .HasColumnType("int");
 
                     b.Property<int>("QuantityPerUnit")
@@ -277,22 +269,22 @@ namespace ManufacturaMVC.Migrations
                     b.Property<double>("UnitPrice")
                         .HasColumnType("float");
 
-                    b.HasKey("Id");
+                    b.HasKey("ProductId");
 
                     b.HasIndex("CategoryId");
 
                     b.HasIndex("EmployeeId");
 
-                    b.HasIndex("ProductDetailId");
+                    b.HasIndex("ProductDetailsId");
 
-                    b.HasIndex("ProductionOrderId");
+                    b.HasIndex("ProductionOrdersId");
 
                     b.ToTable("Products");
                 });
 
             modelBuilder.Entity("ManufacturaMVC.Models.RawMaterials", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("RawMaterialsId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -306,14 +298,14 @@ namespace ManufacturaMVC.Migrations
                     b.Property<decimal>("TotalCost")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("Id");
+                    b.HasKey("RawMaterialsId");
 
                     b.ToTable("RawMaterials");
                 });
 
             modelBuilder.Entity("ManufacturaMVC.Models.SaleInvoices", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("SaleInvoiceId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -333,7 +325,7 @@ namespace ManufacturaMVC.Migrations
                     b.Property<decimal>("Value")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("Id");
+                    b.HasKey("SaleInvoiceId");
 
                     b.HasIndex("CustomerId");
 
@@ -342,7 +334,7 @@ namespace ManufacturaMVC.Migrations
 
             modelBuilder.Entity("ManufacturaMVC.Models.Shippings", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ShippingId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -356,7 +348,7 @@ namespace ManufacturaMVC.Migrations
                     b.Property<int>("SuplierInvoicesRef")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("ShippingId");
 
                     b.HasIndex("SuplierInvoicesRef")
                         .IsUnique();
@@ -366,45 +358,35 @@ namespace ManufacturaMVC.Migrations
 
             modelBuilder.Entity("ManufacturaMVC.Models.SuplierCities", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("SuplierCity")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("PostalCode")
                         .HasColumnType("int");
 
-                    b.Property<string>("SuplierCity")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("SuplierRegion1")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("SuplierRegionId")
-                        .HasColumnType("int");
+                    b.HasKey("SuplierCity");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("SuplierRegionId");
+                    b.HasIndex("SuplierRegion1");
 
                     b.ToTable("SuplierCities");
                 });
 
             modelBuilder.Entity("ManufacturaMVC.Models.SuplierCountries", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
                     b.Property<string>("SuplierCountry")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Id");
+                    b.HasKey("SuplierCountry");
 
                     b.ToTable("SuplierCountries");
                 });
 
             modelBuilder.Entity("ManufacturaMVC.Models.SuplierInvoices", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("SuplierInvoiceId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -415,7 +397,7 @@ namespace ManufacturaMVC.Migrations
                     b.Property<string>("Notes")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("RawMaterialId")
+                    b.Property<int?>("RawMaterialsId")
                         .HasColumnType("int");
 
                     b.Property<int?>("SuplierId")
@@ -427,9 +409,9 @@ namespace ManufacturaMVC.Migrations
                     b.Property<decimal>("Value")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("Id");
+                    b.HasKey("SuplierInvoiceId");
 
-                    b.HasIndex("RawMaterialId");
+                    b.HasIndex("RawMaterialsId");
 
                     b.HasIndex("SuplierId");
 
@@ -438,27 +420,22 @@ namespace ManufacturaMVC.Migrations
 
             modelBuilder.Entity("ManufacturaMVC.Models.SuplierRegions", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("SuplierCountryId")
-                        .HasColumnType("int");
-
                     b.Property<string>("SuplierRegion")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Id");
+                    b.Property<string>("SuplierCountry1")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasIndex("SuplierCountryId");
+                    b.HasKey("SuplierRegion");
+
+                    b.HasIndex("SuplierCountry1");
 
                     b.ToTable("SuplierRegions");
                 });
 
             modelBuilder.Entity("ManufacturaMVC.Models.Supliers", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("SuplierId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -481,15 +458,15 @@ namespace ManufacturaMVC.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("SuplierCityId")
-                        .HasColumnType("int");
+                    b.Property<string>("SuplierCity1")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("WebPage")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("SuplierId");
 
-                    b.HasIndex("SuplierCityId");
+                    b.HasIndex("SuplierCity1");
 
                     b.ToTable("Supliers");
                 });
@@ -498,7 +475,7 @@ namespace ManufacturaMVC.Migrations
                 {
                     b.HasOne("ManufacturaMVC.Models.CustomerRegions", "CustomerRegion")
                         .WithMany("CustomerCities")
-                        .HasForeignKey("CustomerRegionId");
+                        .HasForeignKey("CustomerRegion1");
                 });
 
             modelBuilder.Entity("ManufacturaMVC.Models.CustomerRegions", b =>
@@ -512,7 +489,7 @@ namespace ManufacturaMVC.Migrations
                 {
                     b.HasOne("ManufacturaMVC.Models.CustomerCities", "CustomerCity")
                         .WithMany("Customers")
-                        .HasForeignKey("CustomerCityId");
+                        .HasForeignKey("CustomerCity1");
                 });
 
             modelBuilder.Entity("ManufacturaMVC.Models.Payments", b =>
@@ -533,7 +510,7 @@ namespace ManufacturaMVC.Migrations
                 {
                     b.HasOne("ManufacturaMVC.Models.RawMaterials", "RawMaterial")
                         .WithMany("ProductionOrders")
-                        .HasForeignKey("RawMaterialId");
+                        .HasForeignKey("RawMaterialsId");
                 });
 
             modelBuilder.Entity("ManufacturaMVC.Models.Products", b =>
@@ -548,11 +525,11 @@ namespace ManufacturaMVC.Migrations
 
                     b.HasOne("ManufacturaMVC.Models.ProductDetails", "ProductDetail")
                         .WithMany("Products")
-                        .HasForeignKey("ProductDetailId");
+                        .HasForeignKey("ProductDetailsId");
 
                     b.HasOne("ManufacturaMVC.Models.ProductionOrders", "ProductionOrder")
                         .WithMany("Products")
-                        .HasForeignKey("ProductionOrderId");
+                        .HasForeignKey("ProductionOrdersId");
                 });
 
             modelBuilder.Entity("ManufacturaMVC.Models.SaleInvoices", b =>
@@ -575,14 +552,14 @@ namespace ManufacturaMVC.Migrations
                 {
                     b.HasOne("ManufacturaMVC.Models.SuplierRegions", "SuplierRegion")
                         .WithMany("SuplierCities")
-                        .HasForeignKey("SuplierRegionId");
+                        .HasForeignKey("SuplierRegion1");
                 });
 
             modelBuilder.Entity("ManufacturaMVC.Models.SuplierInvoices", b =>
                 {
                     b.HasOne("ManufacturaMVC.Models.RawMaterials", "RawMaterial")
                         .WithMany("SuplierInvoices")
-                        .HasForeignKey("RawMaterialId");
+                        .HasForeignKey("RawMaterialsId");
 
                     b.HasOne("ManufacturaMVC.Models.Supliers", "Suplier")
                         .WithMany("SuplierInvoices")
@@ -593,14 +570,14 @@ namespace ManufacturaMVC.Migrations
                 {
                     b.HasOne("ManufacturaMVC.Models.SuplierCountries", "SuplierCountry")
                         .WithMany("SuplierRegions")
-                        .HasForeignKey("SuplierCountryId");
+                        .HasForeignKey("SuplierCountry1");
                 });
 
             modelBuilder.Entity("ManufacturaMVC.Models.Supliers", b =>
                 {
                     b.HasOne("ManufacturaMVC.Models.SuplierCities", "SuplierCity")
                         .WithMany("Supliers")
-                        .HasForeignKey("SuplierCityId");
+                        .HasForeignKey("SuplierCity1");
                 });
 #pragma warning restore 612, 618
         }

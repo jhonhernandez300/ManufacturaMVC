@@ -9,6 +9,7 @@ namespace ManufacturaMVC.Models
     public class CustomerCities
     {
         [Key]
+        public int Id { get; set; }
         public string CustomerCity { get; set; }
 
         public int PostalCode { get; set; }

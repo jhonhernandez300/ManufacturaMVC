@@ -1,5 +1,4 @@
-﻿@*model ManufacturaMVC.Models.CustomerCountries*@
-@model ManufacturaMVC.ViewModels.CustomerCountriesDto
+﻿@model ManufacturaMVC.ViewModels.CustomerCountriesDto
 
 @{
     ViewData["Title"] = "Edit";
@@ -12,16 +11,14 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-controller="CustomerCountries" asp-action="Edit" method="post">
-        <!--<form method="post" action="/CustomerCountries/Edit">-->
+        <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="CustomerCountry" class="col-lg-3 col-sm-3 control-label">Customer Country</label>
-                <div class="col-lg-6">
-                    <input asp-for="CustomerCountry" class="form-control" />
-                </div>
+                <label asp-for="CustomerCountry" class="control-label"></label>
+                <input asp-for="CustomerCountry" class="form-control" />
+                <span asp-validation-for="CustomerCountry" class="text-danger"></span>
             </div>
-            <!--<input type="hidden" asp-for="CustomerCountry" /> -->
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

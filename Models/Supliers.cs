@@ -9,7 +9,7 @@ namespace ManufacturaMVC.Models
     public class Supliers
     {
         [Key]
-        public int SuplierId { get; set; }
+        public int Id { get; set; }
 
         public string CompanyName { get; set; }
 

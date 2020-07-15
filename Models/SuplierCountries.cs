@@ -9,6 +9,8 @@ namespace ManufacturaMVC.Models
     public class SuplierCountries
     {
         [Key]
+        public int Id { get; set; }
+
         public string SuplierCountry { get; set; }
 
         public ICollection<SuplierRegions> SuplierRegions { get; set; }

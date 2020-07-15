@@ -11,7 +11,6 @@ using ManufacturaMVC.ViewModels;
 
 namespace ManufacturaMVC.Controllers
 {
-    //[Route("[CustomerCountries]")]
     public class CustomerCountriesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -24,34 +23,32 @@ namespace ManufacturaMVC.Controllers
         }
 
         // GET: CustomerCountries
-        public async Task<IActionResult> Index()        
+        public async Task<IActionResult> Index()
         {
-            //CustomerCountries customerCountry = new CustomerCountries();
-            var customerCountry = await _context.CustomerCountries.ToListAsync();            
-            List<CustomerCountriesDto> countries = _mapper.Map<List<CustomerCountries>, 
+            var customerCountry = await _context.CustomerCountries.ToListAsync();
+            List<CustomerCountriesDto> countries = _mapper.Map<List<CustomerCountries>,
                                                     List<CustomerCountriesDto>>(await _context.CustomerCountries.ToListAsync());
-         
+
             return View(countries);
+
         }
 
         // GET: CustomerCountries/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var customerCountries = await _context.CustomerCountries.FirstOrDefaultAsync(m => m.CustomerCountry == id);
-
+            var customerCountries = await _context.CustomerCountries
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (customerCountries == null)
             {
                 return NotFound();
             }
 
-            var model = _mapper.Map<CustomerCountriesDto>(customerCountries);
-
-            return View(model);
+            return View(customerCountries);
         }
 
         // GET: CustomerCountries/Create
@@ -65,35 +62,34 @@ namespace ManufacturaMVC.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("CustomerCountries")] CustomerCountries customerCountries)
         public async Task<IActionResult> Create(CustomerCountriesDto customerCountriesDto)
         {
             if (ModelState.IsValid)
-            {                
-                var customer = _mapper.Map<CustomerCountriesDto, CustomerCountries>(customerCountriesDto);                
+            {
+                var customer = _mapper.Map<CustomerCountriesDto, CustomerCountries>(customerCountriesDto);
                 _context.Add(customer);
-                await _context.SaveChangesAsync();                
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            
+
             return View();
         }
 
         // GET: CustomerCountries/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            if (!id.HasValue)
             {
                 return NotFound();
             }
-            
+
             var customerCountries = await _context.CustomerCountries.FindAsync(id);
             var model = _mapper.Map<CustomerCountries, CustomerCountriesDto>(customerCountries);
 
             if (customerCountries == null)
             {
                 return NotFound();
-            }            
+            }
 
             return View(model);
             //return View(customerCountries);
@@ -103,11 +99,10 @@ namespace ManufacturaMVC.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]        
-        //public async Task<IActionResult> Edit(string id, [Bind("CustomerCountry")] CustomerCountries customerCountries)
-        public async Task<IActionResult> Edit(string CustomerCountry, CustomerCountriesDto customerCountriesDto)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int Id, CustomerCountriesDto customerCountriesDto)
         {
-            if (CustomerCountry != customerCountriesDto.CustomerCountry)
+            if (Id != customerCountriesDto.Id)
             {
                 return NotFound();
             }
@@ -115,37 +110,16 @@ namespace ManufacturaMVC.Controllers
             if (ModelState.IsValid)
             {
                 try
-                {
-                    //Llega nulo
-                    /*var CustomerCountries = _mapper.Map<CustomerCountriesDto, CustomerCountries>(customerCountriesDto);
-                    var country = _context.CustomerCountries.FirstOrDefault(c => c.CustomerCountry == CustomerCountries.CustomerCountry);
+                {                    
+                    var CustomerCountries = _mapper.Map<CustomerCountriesDto, CustomerCountries>(customerCountriesDto);
+                    var country = _context.CustomerCountries.FirstOrDefault(c => c.Id == CustomerCountries.Id);
+                    country.CustomerCountry = customerCountriesDto.CustomerCountry;
                     _context.Update(country);
-                    await _context.SaveChangesAsync(); */
-
-                    //No hace nada
-                    /*var CustomerCountries = _mapper.Map<CustomerCountriesDto, CustomerCountries>(customerCountriesDto);                    
-                    _context.Update(CustomerCountries);                    
-                    await _context.SaveChangesAsync(); */
-
-                    //No hace nada
-                    /*var country = new CustomerCountries
-                    {
-                        CustomerCountry= customerCountriesDto.CustomerCountry
-                    };
-                    _context.Update(country);
-                    await _context.SaveChangesAsync(); */
-
-                    //No hace nada
-                    var country = new CustomerCountries
-                    {
-                        CustomerCountry = CustomerCountry
-                    };
-                    _context.Update(country);
-                    await _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync();                    
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CustomerCountriesExists(customerCountriesDto.CustomerCountry))                    
+                    if (!CustomerCountriesExists(customerCountriesDto.Id))
                     {
                         return NotFound();
                     }
@@ -160,7 +134,7 @@ namespace ManufacturaMVC.Controllers
         }
 
         // GET: CustomerCountries/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -168,7 +142,7 @@ namespace ManufacturaMVC.Controllers
             }
 
             var customerCountries = await _context.CustomerCountries
-                .FirstOrDefaultAsync(m => m.CustomerCountry == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (customerCountries == null)
             {
                 return NotFound();
@@ -180,7 +154,7 @@ namespace ManufacturaMVC.Controllers
         // POST: CustomerCountries/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var customerCountries = await _context.CustomerCountries.FindAsync(id);
             _context.CustomerCountries.Remove(customerCountries);
@@ -188,9 +162,9 @@ namespace ManufacturaMVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CustomerCountriesExists(string id)
+        private bool CustomerCountriesExists(int id)
         {
-            return _context.CustomerCountries.Any(e => e.CustomerCountry == id);
+            return _context.CustomerCountries.Any(e => e.Id == id);
         }
     }
 }
