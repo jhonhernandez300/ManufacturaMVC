@@ -141,21 +141,23 @@ namespace ManufacturaMVC.Controllers
                 return NotFound();
             }
 
-            var customerCountries = await _context.CustomerCountries
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var customerCountries = await _context.CustomerCountries.FirstOrDefaultAsync(m => m.Id == id);
+            var model = _mapper.Map<CustomerCountries, CustomerCountriesDto>(customerCountries);
+
             if (customerCountries == null)
             {
                 return NotFound();
             }
 
-            return View(customerCountries);
+            return View(model);
         }
 
         // POST: CustomerCountries/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id, CustomerCountriesDto customerCountriesDto)
         {
+            var CustomerCountries = _mapper.Map<CustomerCountriesDto, CustomerCountries>(customerCountriesDto);
             var customerCountries = await _context.CustomerCountries.FindAsync(id);
             _context.CustomerCountries.Remove(customerCountries);
             await _context.SaveChangesAsync();

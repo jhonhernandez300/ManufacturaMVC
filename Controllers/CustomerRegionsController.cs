@@ -25,7 +25,7 @@ namespace ManufacturaMVC.Controllers
         }
 
         // GET: CustomerRegions/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -33,7 +33,7 @@ namespace ManufacturaMVC.Controllers
             }
 
             var customerRegions = await _context.CustomerRegions
-                .FirstOrDefaultAsync(m => m.CustomerRegion == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (customerRegions == null)
             {
                 return NotFound();
@@ -53,7 +53,7 @@ namespace ManufacturaMVC.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CustomerRegion")] CustomerRegions customerRegions)
+        public async Task<IActionResult> Create([Bind("Id,CustomerRegion")] CustomerRegions customerRegions)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +65,7 @@ namespace ManufacturaMVC.Controllers
         }
 
         // GET: CustomerRegions/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
@@ -85,9 +85,9 @@ namespace ManufacturaMVC.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("CustomerRegion")] CustomerRegions customerRegions)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,CustomerRegion")] CustomerRegions customerRegions)
         {
-            if (id != customerRegions.CustomerRegion)
+            if (id != customerRegions.Id)
             {
                 return NotFound();
             }
@@ -101,7 +101,7 @@ namespace ManufacturaMVC.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CustomerRegionsExists(customerRegions.CustomerRegion))
+                    if (!CustomerRegionsExists(customerRegions.Id))
                     {
                         return NotFound();
                     }
@@ -116,7 +116,7 @@ namespace ManufacturaMVC.Controllers
         }
 
         // GET: CustomerRegions/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -124,7 +124,7 @@ namespace ManufacturaMVC.Controllers
             }
 
             var customerRegions = await _context.CustomerRegions
-                .FirstOrDefaultAsync(m => m.CustomerRegion == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (customerRegions == null)
             {
                 return NotFound();
@@ -136,7 +136,7 @@ namespace ManufacturaMVC.Controllers
         // POST: CustomerRegions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var customerRegions = await _context.CustomerRegions.FindAsync(id);
             _context.CustomerRegions.Remove(customerRegions);
@@ -144,9 +144,9 @@ namespace ManufacturaMVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CustomerRegionsExists(string id)
+        private bool CustomerRegionsExists(int id)
         {
-            return _context.CustomerRegions.Any(e => e.CustomerRegion == id);
+            return _context.CustomerRegions.Any(e => e.Id == id);
         }
     }
 }
