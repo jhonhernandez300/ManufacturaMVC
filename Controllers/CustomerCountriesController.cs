@@ -41,14 +41,17 @@ namespace ManufacturaMVC.Controllers
                 return NotFound();
             }
 
-            var customerCountries = await _context.CustomerCountries
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var customerCountries = await _context.CustomerCountries.FirstOrDefaultAsync(m => m.Id == id);
+
             if (customerCountries == null)
             {
                 return NotFound();
             }
 
-            return View(customerCountries);
+            var model = _mapper.Map<CustomerCountries, CustomerCountriesDto>(customerCountries);
+
+            //return View(customerCountries);
+            return View(model);
         }
 
         // GET: CustomerCountries/Create

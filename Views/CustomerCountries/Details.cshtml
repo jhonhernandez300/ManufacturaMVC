@@ -1,4 +1,5 @@
-﻿@model ManufacturaMVC.Models.CustomerCountries
+﻿@*model ManufacturaMVC.Models.CustomerCountries*@
+@model ManufacturaMVC.ViewModels.CustomerCountriesDto
 
 @{
     ViewData["Title"] = "Details";
@@ -11,10 +12,10 @@
     <h4>CustomerCountries</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.CustomerCountry)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.CustomerCountry)
         </dd>
     </dl>
