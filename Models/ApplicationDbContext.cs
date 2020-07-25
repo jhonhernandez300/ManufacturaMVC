@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ManufacturaMVC.ViewModels;
+using Microsoft.EntityFrameworkCore;
 //using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.Metadata;
 using System;
@@ -16,7 +17,6 @@ namespace ManufacturaMVC.Models
         {
 
         }
-
 
         public DbSet<Categories> Categories { get; set; }
         public DbSet<CustomerCities> CustomerCities { get; set; }
@@ -64,7 +64,7 @@ namespace ManufacturaMVC.Models
             modelBuilder.Entity<SuplierInvoices>().HasKey(m => m.Id);
             modelBuilder.Entity<SuplierRegions>().HasKey(m => m.Id);
             modelBuilder.Entity<Supliers>().HasKey(m => m.Id);
-
+            
             modelBuilder.Entity<Products>()
             .HasOne(p => p.Category)
             .WithMany(b => b.Products);

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ManufacturaMVC.Models.CustomerRegions>
+﻿@model IEnumerable<ManufacturaMVC.ViewModels.CustomerCountryRegionDto>
 
 @{
     ViewData["Title"] = "Index";
@@ -16,6 +16,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.CustomerRegion)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerCountry)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -26,9 +29,12 @@
                 @Html.DisplayFor(modelItem => item.CustomerRegion)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                @Html.DisplayFor(modelItem => item.CustomerCountryId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.CustomerRegion">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.CustomerRegion">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.CustomerRegion">Delete</a>
             </td>
         </tr>
 }

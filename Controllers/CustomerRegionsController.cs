@@ -6,22 +6,43 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ManufacturaMVC.Models;
+using AutoMapper;
+using ManufacturaMVC.ViewModels;
 
 namespace ManufacturaMVC.Controllers
 {
     public class CustomerRegionsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;        
+        private readonly IMapper _mapper;
 
-        public CustomerRegionsController(ApplicationDbContext context)
+
+        public CustomerRegionsController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
+
 
         // GET: CustomerRegions
         public async Task<IActionResult> Index()
         {
-            return View(await _context.CustomerRegions.ToListAsync());
+            var data = _context.CustomerRegions.Include(c => c.CustomerCountry).ToList();
+            List<CustomerCountryRegionVM> ccrList = new List<CustomerCountryRegionVM>();
+
+            foreach (var item in data)
+            {
+                CustomerCountryRegionVM ccr = new CustomerCountryRegionVM();
+                ccr.CustomerRegionId = item.Id;
+                ccr.CustomerRegion = item.CustomerRegion;
+                ccr.CustomerCountryId = item.CustomerCountryID;
+                ccr.CustomerCountry = item.CustomerCountry.ToString();
+                ccrList.Add(ccr);
+            }
+            List <CustomerCountryRegionDto> Regions = _mapper.Map<List<CustomerCountryRegionVM>,
+                                                    List<CustomerCountryRegionDto>>(ccrList);
+            return View(Regions);
+            //return View(await customerRegion.ToListAsync());
         }
 
         // GET: CustomerRegions/Details/5
@@ -33,6 +54,7 @@ namespace ManufacturaMVC.Controllers
             }
 
             var customerRegions = await _context.CustomerRegions
+                .Include(c => c.CustomerCountry)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (customerRegions == null)
             {
@@ -45,6 +67,7 @@ namespace ManufacturaMVC.Controllers
         // GET: CustomerRegions/Create
         public IActionResult Create()
         {
+            ViewData["CustomerCountryID"] = new SelectList(_context.CustomerCountries, "Id", "Id");
             return View();
         }
 
@@ -53,7 +76,7 @@ namespace ManufacturaMVC.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CustomerRegion")] CustomerRegions customerRegions)
+        public async Task<IActionResult> Create([Bind("Id,CustomerRegion,CustomerCountryID")] CustomerRegions customerRegions)
         {
             if (ModelState.IsValid)
             {
@@ -61,6 +84,7 @@ namespace ManufacturaMVC.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CustomerCountryID"] = new SelectList(_context.CustomerCountries, "Id", "Id", customerRegions.CustomerCountryID);
             return View(customerRegions);
         }
 
@@ -77,6 +101,7 @@ namespace ManufacturaMVC.Controllers
             {
                 return NotFound();
             }
+            ViewData["CustomerCountryID"] = new SelectList(_context.CustomerCountries, "Id", "Id", customerRegions.CustomerCountryID);
             return View(customerRegions);
         }
 
@@ -85,7 +110,7 @@ namespace ManufacturaMVC.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CustomerRegion")] CustomerRegions customerRegions)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,CustomerRegion,CustomerCountryID")] CustomerRegions customerRegions)
         {
             if (id != customerRegions.Id)
             {
@@ -112,6 +137,7 @@ namespace ManufacturaMVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CustomerCountryID"] = new SelectList(_context.CustomerCountries, "Id", "Id", customerRegions.CustomerCountryID);
             return View(customerRegions);
         }
 
@@ -124,6 +150,7 @@ namespace ManufacturaMVC.Controllers
             }
 
             var customerRegions = await _context.CustomerRegions
+                .Include(c => c.CustomerCountry)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (customerRegions == null)
             {

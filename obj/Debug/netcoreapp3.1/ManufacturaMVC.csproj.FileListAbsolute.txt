@@ -169,6 +169,11 @@ C:\Users\Usuario\source\repos\ManufacturaMVC\obj\Debug\netcoreapp3.1\Razor\Views
 C:\Users\Usuario\source\repos\ManufacturaMVC\obj\Debug\netcoreapp3.1\Razor\Views\CustomerCountries\Details.cshtml.g.cs
 C:\Users\Usuario\source\repos\ManufacturaMVC\obj\Debug\netcoreapp3.1\Razor\Views\CustomerCountries\Edit.cshtml.g.cs
 C:\Users\Usuario\source\repos\ManufacturaMVC\obj\Debug\netcoreapp3.1\Razor\Views\CustomerCountries\Index.cshtml.g.cs
+C:\Users\Usuario\source\repos\ManufacturaMVC\obj\Debug\netcoreapp3.1\Razor\Views\CustomerCities\Create.cshtml.g.cs
+C:\Users\Usuario\source\repos\ManufacturaMVC\obj\Debug\netcoreapp3.1\Razor\Views\CustomerCities\Delete.cshtml.g.cs
+C:\Users\Usuario\source\repos\ManufacturaMVC\obj\Debug\netcoreapp3.1\Razor\Views\CustomerCities\Details.cshtml.g.cs
+C:\Users\Usuario\source\repos\ManufacturaMVC\obj\Debug\netcoreapp3.1\Razor\Views\CustomerCities\Edit.cshtml.g.cs
+C:\Users\Usuario\source\repos\ManufacturaMVC\obj\Debug\netcoreapp3.1\Razor\Views\CustomerCities\Index.cshtml.g.cs
 C:\Users\Usuario\source\repos\ManufacturaMVC\obj\Debug\netcoreapp3.1\Razor\Views\CustomerRegions\Create.cshtml.g.cs
 C:\Users\Usuario\source\repos\ManufacturaMVC\obj\Debug\netcoreapp3.1\Razor\Views\CustomerRegions\Delete.cshtml.g.cs
 C:\Users\Usuario\source\repos\ManufacturaMVC\obj\Debug\netcoreapp3.1\Razor\Views\CustomerRegions\Details.cshtml.g.cs
