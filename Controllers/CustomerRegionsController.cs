@@ -9,6 +9,7 @@ using ManufacturaMVC.Models;
 using AutoMapper;
 using ManufacturaMVC.ViewModels;
 
+
 namespace ManufacturaMVC.Controllers
 {
     public class CustomerRegionsController : Controller
@@ -25,7 +26,8 @@ namespace ManufacturaMVC.Controllers
 
 
         // GET: CustomerRegions
-        public async Task<IActionResult> Index()
+        //public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             var data = _context.CustomerRegions.Include(c => c.CustomerCountry).ToList();
             List<CustomerCountryRegionVM> ccrList = new List<CustomerCountryRegionVM>();
@@ -53,15 +55,23 @@ namespace ManufacturaMVC.Controllers
                 return NotFound();
             }
 
-            var customerRegions = await _context.CustomerRegions
-                .Include(c => c.CustomerCountry)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var customerRegions = await _context.CustomerRegions.Include(c => c.CustomerCountry)
+                                                                .FirstOrDefaultAsync(m => m.Id == id);
+
             if (customerRegions == null)
             {
                 return NotFound();
             }
 
-            return View(customerRegions);
+            CustomerCountryRegionVM ccr = new CustomerCountryRegionVM();
+            ccr.CustomerRegionId = customerRegions.Id;
+            ccr.CustomerRegion = customerRegions.CustomerRegion;
+            ccr.CustomerCountryId = customerRegions.CustomerCountryID;
+            ccr.CustomerCountry = customerRegions.CustomerCountry.ToString();            
+
+            var model = _mapper.Map<CustomerCountryRegionVM, CustomerRegionsDto>(ccr);
+
+            return View(model);
         }
 
         // GET: CustomerRegions/Create

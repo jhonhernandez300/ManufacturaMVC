@@ -14,7 +14,13 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.CustomerRegion)
+                @Html.DisplayNameFor(model => model.CustomerRegionId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerRegionId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerCountryId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.CustomerCountry)
@@ -26,15 +32,21 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.CustomerRegion)
+                @Html.DisplayFor(modelItem => item.CustomerRegionId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerRegionId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CustomerCountryId)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.CustomerRegion">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CustomerRegion">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CustomerRegion">Delete</a>
+                @Html.DisplayFor(modelItem => item.CustomerCountry)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.CustomerRegionId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.CustomerRegionId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.CustomerRegionId">Delete</a>
             </td>
         </tr>
 }

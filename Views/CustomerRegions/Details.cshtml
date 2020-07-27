@@ -1,4 +1,4 @@
-﻿@model ManufacturaMVC.Models.CustomerRegions
+﻿@model ManufacturaMVC.ViewModels.CustomerCountryRegionDto
 
 @{
     ViewData["Title"] = "Details";
@@ -12,7 +12,7 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CustomerRegion)
+            @Html.DisplayNameFor(model => model.CustomerRegionId)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.CustomerRegion)
@@ -21,11 +21,11 @@
             @Html.DisplayNameFor(model => model.CustomerCountry)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CustomerCountry.Id)
+            @Html.DisplayFor(model => model.CustomerCountryId)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model.CustomerRegionId">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
