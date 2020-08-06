@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ManufacturaMVC.Models;
 using AutoMapper;
 using ManufacturaMVC.ViewModels;
+using ManufacturaMVC.Dto;
 
 namespace ManufacturaMVC.Controllers
 {
@@ -41,7 +42,7 @@ namespace ManufacturaMVC.Controllers
                 return NotFound();
             }
 
-            var customerCountries = await _context.CustomerCountries.FirstOrDefaultAsync(m => m.Id == id);
+            var customerCountries = await _context.CustomerCountries.FirstOrDefaultAsync(m => m.IdCustomerCountry == id);
 
             if (customerCountries == null)
             {
@@ -105,7 +106,7 @@ namespace ManufacturaMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int Id, CustomerCountriesDto customerCountriesDto)
         {
-            if (Id != customerCountriesDto.Id)
+            if (Id != customerCountriesDto.IdCustomerCountry)
             {
                 return NotFound();
             }
@@ -115,14 +116,14 @@ namespace ManufacturaMVC.Controllers
                 try
                 {                    
                     var CustomerCountries = _mapper.Map<CustomerCountriesDto, CustomerCountries>(customerCountriesDto);
-                    var country = _context.CustomerCountries.FirstOrDefault(c => c.Id == CustomerCountries.Id);
-                    country.CustomerCountry = customerCountriesDto.CustomerCountry;
+                    var country = _context.CustomerCountries.FirstOrDefault(c => c.IdCustomerCountry == CustomerCountries.IdCustomerCountry);
+                    country.CustomerCountryName = customerCountriesDto.CustomerCountryName;
                     _context.Update(country);
                     await _context.SaveChangesAsync();                    
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CustomerCountriesExists(customerCountriesDto.Id))
+                    if (!CustomerCountriesExists(customerCountriesDto.IdCustomerCountry))
                     {
                         return NotFound();
                     }
@@ -144,7 +145,7 @@ namespace ManufacturaMVC.Controllers
                 return NotFound();
             }
 
-            var customerCountries = await _context.CustomerCountries.FirstOrDefaultAsync(m => m.Id == id);
+            var customerCountries = await _context.CustomerCountries.FirstOrDefaultAsync(m => m.IdCustomerCountry == id);
             var model = _mapper.Map<CustomerCountries, CustomerCountriesDto>(customerCountries);
 
             if (customerCountries == null)
@@ -169,7 +170,7 @@ namespace ManufacturaMVC.Controllers
 
         private bool CustomerCountriesExists(int id)
         {
-            return _context.CustomerCountries.Any(e => e.Id == id);
+            return _context.CustomerCountries.Any(e => e.IdCustomerCountry == id);
         }
     }
 }

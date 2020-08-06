@@ -48,8 +48,8 @@ namespace ManufacturaMVC.Models
         {
             modelBuilder.Entity<Categories>().HasKey(m => m.Id);
             modelBuilder.Entity<CustomerCities>().HasKey(m => m.Id);
-            modelBuilder.Entity<CustomerCountries>().HasKey(m => m.Id);
-            modelBuilder.Entity<CustomerRegions>().HasKey(m => m.Id);
+            modelBuilder.Entity<CustomerCountries>().HasKey(m => m.IdCustomerCountry);
+            modelBuilder.Entity<CustomerRegions>().HasKey(m => m.IdCustomerRegion);
             modelBuilder.Entity<Customers>().HasKey(m => m.Id);
             modelBuilder.Entity<Employees>().HasKey(m => m.Id);
             modelBuilder.Entity<Payments>().HasKey(m => m.Id);
@@ -71,7 +71,8 @@ namespace ManufacturaMVC.Models
 
             modelBuilder.Entity<CustomerRegions>()
            .HasOne(p => p.CustomerCountry)
-           .WithMany(b => b.CustomerRegions);
+           .WithMany(b => b.CustomerRegions)
+           .HasForeignKey(t => t.IdCustomerCountry);
 
             modelBuilder.Entity<CustomerCities>()
            .HasOne(p => p.CustomerRegion)

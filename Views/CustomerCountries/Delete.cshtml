@@ -1,4 +1,4 @@
-﻿@model ManufacturaMVC.ViewModels.CustomerCountriesDto
+﻿@model ManufacturaMVC.Dto.CustomerCountriesDto
 
 @{
     ViewData["Title"] = "Delete";
@@ -13,15 +13,15 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CustomerCountry)
+            @Html.DisplayNameFor(model => model.CustomerCountryName)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CustomerCountry)
+            @Html.DisplayFor(model => model.CustomerCountryName)
         </dd>
     </dl>
     
     <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="IdCustomerCountry" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>

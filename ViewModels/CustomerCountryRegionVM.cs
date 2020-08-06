@@ -8,14 +8,14 @@ namespace ManufacturaMVC.ViewModels
 {
     public class CustomerCountryRegionVM
     {
-        public int CustomerRegionId { get; set; }
+        public int IdCustomerRegion { get; set; }
 
-        public string CustomerRegion { get; set; }
+        public string CustomerRegionName{ get; set; }
 
-        public int CustomerCountryId { get; set; }
+        public int IdCustomerCountry { get; set; }        
         
-        public string CustomerCountry { get; set; }
+        public string CustomerCountryName { get; set; }
 
-      
+
     }
 }

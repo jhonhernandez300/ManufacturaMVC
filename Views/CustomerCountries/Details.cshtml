@@ -1,5 +1,5 @@
 ﻿@*model ManufacturaMVC.Models.CustomerCountries*@
-@model ManufacturaMVC.ViewModels.CustomerCountriesDto
+@model ManufacturaMVC.Dto.CustomerCountriesDto
 
 @{
     ViewData["Title"] = "Details";
@@ -13,14 +13,14 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CustomerCountry)
+            @Html.DisplayNameFor(model => model.CustomerCountryName)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CustomerCountry)
+            @Html.DisplayFor(model => model.CustomerCountryName)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model.IdCustomerCountry">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
