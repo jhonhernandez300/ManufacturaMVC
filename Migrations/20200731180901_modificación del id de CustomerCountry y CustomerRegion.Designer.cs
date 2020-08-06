@@ -4,14 +4,16 @@ using ManufacturaMVC.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ManufacturaMVC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200731180901_modificación del id de CustomerCountry y CustomerRegion")]
+    partial class modificacióndeliddeCustomerCountryyCustomerRegion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,7 +69,7 @@ namespace ManufacturaMVC.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CustomerCountryName")
+                    b.Property<string>("CustomerCountry")
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
@@ -83,10 +85,10 @@ namespace ManufacturaMVC.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CustomerCountryNameIdCustomerCountry")
+                    b.Property<int?>("CustomerCountryIdCustomerCountry")
                         .HasColumnType("int");
 
-                    b.Property<string>("CustomerRegionName")
+                    b.Property<string>("CustomerRegion")
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
@@ -95,7 +97,7 @@ namespace ManufacturaMVC.Migrations
 
                     b.HasKey("IdCustomerRegion");
 
-                    b.HasIndex("CustomerCountryNameIdCustomerCountry");
+                    b.HasIndex("CustomerCountryIdCustomerCountry");
 
                     b.ToTable("CustomerRegions");
                 });
@@ -506,9 +508,9 @@ namespace ManufacturaMVC.Migrations
 
             modelBuilder.Entity("ManufacturaMVC.Models.CustomerRegions", b =>
                 {
-                    b.HasOne("ManufacturaMVC.Models.CustomerCountries", "CustomerCountryName")
+                    b.HasOne("ManufacturaMVC.Models.CustomerCountries", "CustomerCountry")
                         .WithMany("CustomerRegions")
-                        .HasForeignKey("CustomerCountryNameIdCustomerCountry");
+                        .HasForeignKey("CustomerCountryIdCustomerCountry");
                 });
 
             modelBuilder.Entity("ManufacturaMVC.Models.Customers", b =>

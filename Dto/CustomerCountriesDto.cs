@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ManufacturaMVC.ViewModels
+namespace ManufacturaMVC.Dto
 {
     public class CustomerCountriesDto
     {
-        public int Id { get; set; }
-        public string CustomerCountry { get; set; }
+        public int IdCustomerCountry { get; set; }
+        public string CustomerCountryName { get; set; }
 
         public ICollection<CustomerRegionsDto> CustomerRegionsDto { get; set; }
+
     }
 }

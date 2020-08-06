@@ -13,16 +13,16 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="IdCustomerRegion" />
             <div class="form-group">
-                <label asp-for="CustomerRegion" class="control-label"></label>
-                <input asp-for="CustomerRegion" class="form-control" />
-                <span asp-validation-for="CustomerRegion" class="text-danger"></span>
+                <label asp-for="CustomerRegionName" class="control-label"></label>
+                <input asp-for="CustomerRegionName" class="form-control" />
+                <span asp-validation-for="CustomerRegionName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CustomerCountryID" class="control-label"></label>
-                <select asp-for="CustomerCountryID" class="form-control" asp-items="ViewBag.CustomerCountryID"></select>
-                <span asp-validation-for="CustomerCountryID" class="text-danger"></span>
+                <label asp-for="IdCustomerCountry" class="control-label"></label>
+                <select asp-for="IdCustomerCountry" class="form-control" asp-items="ViewBag.IdCustomerCountry"></select>
+                <span asp-validation-for="IdCustomerCountry" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

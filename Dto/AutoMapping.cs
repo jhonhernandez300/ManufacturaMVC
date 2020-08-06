@@ -4,8 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using ManufacturaMVC.Models;
+using ManufacturaMVC.Dto;
+using ManufacturaMVC.ViewModels;
 
-namespace ManufacturaMVC.ViewModels
+
+namespace ManufacturaMVC.Dto
 {
     public class AutoMapping : Profile
     {
@@ -21,10 +24,26 @@ namespace ManufacturaMVC.ViewModels
             //CreateMap<CustomerCountries, string>().ConvertUsing(a => a.CustomerCountry);
 
             CreateMap<CustomerRegionsDto, CustomerRegions>();
+            CreateMap<CustomerRegions, CustomerRegionsDto>();
 
-            CreateMap<CustomerCountryRegionVM, CustomerCountryRegionDto>();
-            CreateMap<CustomerCountryRegionDto, CustomerCountryRegionVM>();
+            CreateMap<CustomerCountryRegionVM, CustomerRegions>();
+            CreateMap<CustomerRegions, CustomerCountryRegionVM>(); 
+            //CreateMap<CustomerRegions, CustomerCountryRegionVM>().ForMember(dest => dest.CustomerCountryName, opt => opt.MapFrom(src => src.CustomerCountry));
 
+            /*var configuration = new MapperConfiguration(cfg => cfg.CreateMap<CustomerCountries, CustomerCountryRegionVM>()
+                                    .ForMember(dto => dto.CustomerRegion, conf => conf.MapFrom(ol => ol.CustomerRegions))); //I can´t see the next field on the intellicense */
+
+            
         }
+
+        /*public List<CustomerCountryRegionVM> GetLinesForOrder(int orderId)
+        {
+            using (var context = new orderEntities())
+            {
+                return context.OrderLines.Where(ol => ol.OrderId == orderId)
+                         .ProjectTo<CustomerCountryRegionVM>(configuration).ToList();
+            }
+        }*/
+
     }
 }

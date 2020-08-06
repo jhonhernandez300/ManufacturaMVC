@@ -1,4 +1,5 @@
-﻿@model IEnumerable<ManufacturaMVC.ViewModels.CustomerCountryRegionDto>
+﻿@*model IEnumerable<ManufacturaMVC.Dto.CustomerCountryRegionsDto*@
+@model IEnumerable<ManufacturaMVC.ViewModels.CustomerCountryRegionVM>
 
 @{
     ViewData["Title"] = "Index";
@@ -14,29 +15,36 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.CustomerRegion)
+                @Html.DisplayNameFor(model => model.IdCustomerRegion)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CustomerCountry)
+                @Html.DisplayNameFor(model => model.CustomerRegionName)
+            </th>            
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerCountryName)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CustomerRegion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CustomerCountryId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.CustomerRegion">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CustomerRegion">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CustomerRegion">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdCustomerRegion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerRegionName)
+                </td>                
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerCountryName)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.IdCustomerRegion">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.IdCustomerRegion">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.IdCustomerRegion">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

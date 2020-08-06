@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using ManufacturaMVC.Models;
 using AutoMapper;
 using ManufacturaMVC.ViewModels;
+using ManufacturaMVC.Dto;
+using ManufacturaMVC.Migrations;
 
 namespace ManufacturaMVC.Controllers
 {
@@ -22,52 +24,97 @@ namespace ManufacturaMVC.Controllers
             _context = context;
             _mapper = mapper;
         }
+                
 
-
+        
         // GET: CustomerRegions
-        public async Task<IActionResult> Index()
-        {
-            var data = _context.CustomerRegions.Include(c => c.CustomerCountry).ToList();
+        //public async Task<IActionResult> Index()
+        public IActionResult Index()
+        {            
+            var data = (from r in _context.CustomerRegions
+                        join c in _context.CustomerCountries
+                        on r.IdCustomerCountry equals c.IdCustomerCountry
+                        select new
+                        {
+                            r.IdCustomerRegion,
+                            r.CustomerRegionName,
+                            c.IdCustomerCountry,
+                            c.CustomerCountryName   
+                        }).OrderBy(m => m.CustomerCountryName);            
+
+            /*var data2 = _context.CustomerRegions.Include("CustomerContry.CustomerCountryName").FirstOrDefault();
+
+            List<CustomerCountryRegionVM> regionsWithCountries = _mapper.Map<List<CustomerRegions>,
+                                                    List<CustomerCountryRegionVM>>(data2); */
+            /*No se puede convertir de CustomerRegions a Generic list CustomerCountryRegionVM
+             
+             data. No se puede convertir de Order Iqueryable a generic list
+            */            
+
             List<CustomerCountryRegionVM> ccrList = new List<CustomerCountryRegionVM>();
 
             foreach (var item in data)
             {
                 CustomerCountryRegionVM ccr = new CustomerCountryRegionVM();
-                ccr.CustomerRegionId = item.Id;
-                ccr.CustomerRegion = item.CustomerRegion;
-                ccr.CustomerCountryId = item.CustomerCountryID;
-                ccr.CustomerCountry = item.CustomerCountry.ToString();
+                ccr.IdCustomerRegion = item.IdCustomerRegion;
+                ccr.CustomerRegionName = item.CustomerRegionName;
+                ccr.IdCustomerCountry = item.IdCustomerCountry;
+                ccr.CustomerCountryName = item.CustomerCountryName;
                 ccrList.Add(ccr);
-            }
-            List <CustomerCountryRegionDto> Regions = _mapper.Map<List<CustomerCountryRegionVM>,
-                                                    List<CustomerCountryRegionDto>>(ccrList);
-            return View(Regions);
-            //return View(await customerRegion.ToListAsync());
+            }            
+
+            return View(ccrList);            
         }
 
         // GET: CustomerRegions/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-
-            var customerRegions = await _context.CustomerRegions
-                .Include(c => c.CustomerCountry)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (customerRegions == null)
+            else 
             {
-                return NotFound();
-            }
+                //var customerRegions = await _context.CustomerRegions.Include(c => c.CustomerCountry)
+                //                                                  .FirstOrDefaultAsync(m => m.IdCustomerRegion == id);
+                var customerRegions = (from r in _context.CustomerRegions
+                                       join c in _context.CustomerCountries
+                                       on r.IdCustomerCountry equals c.IdCustomerCountry
+                                       where r.IdCustomerRegion == id
+                                       select new
+                                       {
+                                           r.IdCustomerRegion,
+                                           r.CustomerRegionName,
+                                           c.IdCustomerCountry,
+                                           c.CustomerCountryName
+                                       }).FirstOrDefault();
 
-            return View(customerRegions);
+                if (customerRegions == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    CustomerCountryRegionVM ccr = new CustomerCountryRegionVM();
+                    ccr.IdCustomerRegion = customerRegions.IdCustomerRegion;
+                    ccr.CustomerRegionName = customerRegions.CustomerRegionName;
+                    ccr.IdCustomerCountry = customerRegions.IdCustomerCountry;
+                    ccr.CustomerCountryName = customerRegions.CustomerCountryName;
+
+                    //var model = _mapper.Map<CustomerCountryRegionVM, CustomerRegionsDto>(ccr);
+
+                    //var model = _mapper.Map<CustomerRegions, CustomerRegionsDto>(customerRegions);
+
+                    return View(ccr);
+                }
+            }
         }
 
         // GET: CustomerRegions/Create
         public IActionResult Create()
         {
-            ViewData["CustomerCountryID"] = new SelectList(_context.CustomerCountries, "Id", "Id");
+            //ViewData["IdCustomerCountry"] = new SelectList(_context.CustomerCountries, "IdCustomerCountry", "IdCustomerCountry");
+            ViewData["CustomerCountryName"] = new SelectList(_context.CustomerCountries, "IdCustomerCountry", "CustomerCountryName");
             return View();
         }
 
@@ -76,17 +123,27 @@ namespace ManufacturaMVC.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CustomerRegion,CustomerCountryID")] CustomerRegions customerRegions)
+        public async Task<IActionResult> Create([Bind("IdCustomerRegion,CustomerRegionName,IdCustomerCountry")] CustomerCountryRegionVM customerCountryRegionVM)
+        //public async Task<IActionResult> Create(CustomerCountryRegionVM customerCountryRegionVM)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(customerRegions);
-                await _context.SaveChangesAsync();
+                //var region = _mapper.Map<CustomerRegionsDto, CustomerCountryRegionVM>(customerRegionsDto);
+                CustomerRegions region = new CustomerRegions();
+                region.CustomerRegionName = customerCountryRegionVM.CustomerRegionName;
+                region.IdCustomerCountry = customerCountryRegionVM.IdCustomerCountry;                
+
+                _context.Add(region);   
+                await _context.SaveChangesAsync(); 
+                
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerCountryID"] = new SelectList(_context.CustomerCountries, "Id", "Id", customerRegions.CustomerCountryID);
-            return View(customerRegions);
+
+            ViewData["IdCustomerCountry"] = new SelectList(_context.CustomerCountries, "IdCustomerCountry", "IdCustomerCountry");
+
+            return View(customerCountryRegionVM);
         }
+        
 
         // GET: CustomerRegions/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -101,7 +158,7 @@ namespace ManufacturaMVC.Controllers
             {
                 return NotFound();
             }
-            ViewData["CustomerCountryID"] = new SelectList(_context.CustomerCountries, "Id", "Id", customerRegions.CustomerCountryID);
+            ViewData["CustomerCountryID"] = new SelectList(_context.CustomerCountries, "Id", "Id", customerRegions.IdCustomerCountry);
             return View(customerRegions);
         }
 
@@ -112,7 +169,7 @@ namespace ManufacturaMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,CustomerRegion,CustomerCountryID")] CustomerRegions customerRegions)
         {
-            if (id != customerRegions.Id)
+            if (id != customerRegions.IdCustomerRegion)
             {
                 return NotFound();
             }
@@ -126,7 +183,7 @@ namespace ManufacturaMVC.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CustomerRegionsExists(customerRegions.Id))
+                    if (!CustomerRegionsExists(customerRegions.IdCustomerRegion))
                     {
                         return NotFound();
                     }
@@ -137,7 +194,7 @@ namespace ManufacturaMVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerCountryID"] = new SelectList(_context.CustomerCountries, "Id", "Id", customerRegions.CustomerCountryID);
+            ViewData["CustomerCountryID"] = new SelectList(_context.CustomerCountries, "Id", "Id", customerRegions.IdCustomerCountry);
             return View(customerRegions);
         }
 
@@ -151,7 +208,7 @@ namespace ManufacturaMVC.Controllers
 
             var customerRegions = await _context.CustomerRegions
                 .Include(c => c.CustomerCountry)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.IdCustomerCountry == id);
             if (customerRegions == null)
             {
                 return NotFound();
@@ -173,7 +230,7 @@ namespace ManufacturaMVC.Controllers
 
         private bool CustomerRegionsExists(int id)
         {
-            return _context.CustomerRegions.Any(e => e.Id == id);
+            return _context.CustomerRegions.Any(e => e.IdCustomerRegion == id);
         }
     }
 }

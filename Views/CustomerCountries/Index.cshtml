@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ManufacturaMVC.ViewModels.CustomerCountriesDto>
+﻿@model IEnumerable<ManufacturaMVC.Dto.CustomerCountriesDto>
 
 @{
     ViewData["Title"] = "Index";
@@ -14,7 +14,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.CustomerCountry)
+                @Html.DisplayNameFor(model => model.CustomerCountryName)
             </th>
             <th></th>
         </tr>
@@ -23,15 +23,15 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Id)
+                @Html.DisplayFor(modelItem => item.IdCustomerCountry)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CustomerCountry)
+                @Html.DisplayFor(modelItem => item.CustomerCountryName)
             </td>            
             <td>                
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.IdCustomerCountry">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdCustomerCountry">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdCustomerCountry">Delete</a>
             </td>
         </tr>
 }
