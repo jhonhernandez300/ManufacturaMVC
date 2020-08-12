@@ -30,91 +30,91 @@ namespace ManufacturaMVC.Controllers
         // GET: CustomerRegions
         //public async Task<IActionResult> Index()
         public IActionResult Index()
-        {            
-            var data = (from r in _context.CustomerRegions
-                        join c in _context.CustomerCountries
-                        on r.IdCustomerCountry equals c.IdCustomerCountry
-                        select new
-                        {
-                            r.IdCustomerRegion,
-                            r.CustomerRegionName,
-                            c.IdCustomerCountry,
-                            c.CustomerCountryName   
-                        }).OrderBy(m => m.CustomerCountryName);            
+        {
+            List<CustomerCountryRegionVM> countryRegionList = new List<CustomerCountryRegionVM>();
 
-            /*var data2 = _context.CustomerRegions.Include("CustomerContry.CustomerCountryName").FirstOrDefault();
-
-            List<CustomerCountryRegionVM> regionsWithCountries = _mapper.Map<List<CustomerRegions>,
-                                                    List<CustomerCountryRegionVM>>(data2); */
-            /*No se puede convertir de CustomerRegions a Generic list CustomerCountryRegionVM
-             
-             data. No se puede convertir de Order Iqueryable a generic list
-            */            
-
-            List<CustomerCountryRegionVM> ccrList = new List<CustomerCountryRegionVM>();
-
-            foreach (var item in data)
+            try
             {
-                CustomerCountryRegionVM ccr = new CustomerCountryRegionVM();
-                ccr.IdCustomerRegion = item.IdCustomerRegion;
-                ccr.CustomerRegionName = item.CustomerRegionName;
-                ccr.IdCustomerCountry = item.IdCustomerCountry;
-                ccr.CustomerCountryName = item.CustomerCountryName;
-                ccrList.Add(ccr);
-            }            
+                var regionsWithTheirCountry = (from r in _context.CustomerRegions
+                                               join c in _context.CustomerCountries
+                                               on r.IdCustomerCountry equals c.IdCustomerCountry
+                                               select new
+                                               {
+                                                   r.IdCustomerRegion,
+                                                   r.CustomerRegionName,
+                                                   c.IdCustomerCountry,
+                                                   c.CustomerCountryName
+                                               }).OrderBy(m => m.CustomerCountryName);                
 
-            return View(ccrList);            
+                foreach (var item in regionsWithTheirCountry)
+                {
+                    CustomerCountryRegionVM countryRegionVM = new CustomerCountryRegionVM();
+                    countryRegionVM.IdCustomerRegion = item.IdCustomerRegion;
+                    countryRegionVM.CustomerRegionName = item.CustomerRegionName;
+                    countryRegionVM.IdCustomerCountry = item.IdCustomerCountry;
+                    countryRegionVM.CustomerCountryName = item.CustomerCountryName;
+                    countryRegionList.Add(countryRegionVM);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }           
+
+            return View(countryRegionList);            
         }
 
         // GET: CustomerRegions/Details/5
         public IActionResult Details(int? id)
         {
+            CustomerCountryRegionVM countryRegionVM = new CustomerCountryRegionVM();
+
             if (id == null)
             {
                 return NotFound();
             }
             else 
             {
-                //var customerRegions = await _context.CustomerRegions.Include(c => c.CustomerCountry)
-                //                                                  .FirstOrDefaultAsync(m => m.IdCustomerRegion == id);
-                var customerRegions = (from r in _context.CustomerRegions
-                                       join c in _context.CustomerCountries
-                                       on r.IdCustomerCountry equals c.IdCustomerCountry
-                                       where r.IdCustomerRegion == id
-                                       select new
-                                       {
-                                           r.IdCustomerRegion,
-                                           r.CustomerRegionName,
-                                           c.IdCustomerCountry,
-                                           c.CustomerCountryName
-                                       }).FirstOrDefault();
-
-                if (customerRegions == null)
+                try
                 {
-                    return NotFound();
+                    var regionsWithTheirCountry = (from r in _context.CustomerRegions
+                                                   join c in _context.CustomerCountries
+                                                   on r.IdCustomerCountry equals c.IdCustomerCountry
+                                                   where r.IdCustomerRegion == id
+                                                   select new
+                                                   {
+                                                       r.IdCustomerRegion,
+                                                       r.CustomerRegionName,
+                                                       c.IdCustomerCountry,
+                                                       c.CustomerCountryName
+                                                   }).FirstOrDefault();
+
+                    if (regionsWithTheirCountry == null)
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        countryRegionVM.IdCustomerRegion = regionsWithTheirCountry.IdCustomerRegion;
+                        countryRegionVM.CustomerRegionName = regionsWithTheirCountry.CustomerRegionName;
+                        countryRegionVM.IdCustomerCountry = regionsWithTheirCountry.IdCustomerCountry;
+                        countryRegionVM.CustomerCountryName = regionsWithTheirCountry.CustomerCountryName;
+                    }
                 }
-                else
+                catch (Exception e)
                 {
-                    CustomerCountryRegionVM ccr = new CustomerCountryRegionVM();
-                    ccr.IdCustomerRegion = customerRegions.IdCustomerRegion;
-                    ccr.CustomerRegionName = customerRegions.CustomerRegionName;
-                    ccr.IdCustomerCountry = customerRegions.IdCustomerCountry;
-                    ccr.CustomerCountryName = customerRegions.CustomerCountryName;
-
-                    //var model = _mapper.Map<CustomerCountryRegionVM, CustomerRegionsDto>(ccr);
-
-                    //var model = _mapper.Map<CustomerRegions, CustomerRegionsDto>(customerRegions);
-
-                    return View(ccr);
+                    Console.WriteLine(e.Message);
                 }
+
+                return View(countryRegionVM);
             }
         }
 
         // GET: CustomerRegions/Create
         public IActionResult Create()
-        {
-            //ViewData["IdCustomerCountry"] = new SelectList(_context.CustomerCountries, "IdCustomerCountry", "IdCustomerCountry");
+        {            
             ViewData["CustomerCountryName"] = new SelectList(_context.CustomerCountries, "IdCustomerCountry", "CustomerCountryName");
+
             return View();
         }
 
@@ -123,20 +123,26 @@ namespace ManufacturaMVC.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdCustomerRegion,CustomerRegionName,IdCustomerCountry")] CustomerCountryRegionVM customerCountryRegionVM)
-        //public async Task<IActionResult> Create(CustomerCountryRegionVM customerCountryRegionVM)
+        public async Task<IActionResult> Create([Bind("IdCustomerRegion,CustomerRegionName,IdCustomerCountry")] CustomerCountryRegionVM customerCountryRegionVM)        
         {
             if (ModelState.IsValid)
             {
-                //var region = _mapper.Map<CustomerRegionsDto, CustomerCountryRegionVM>(customerRegionsDto);
-                CustomerRegions region = new CustomerRegions();
-                region.CustomerRegionName = customerCountryRegionVM.CustomerRegionName;
-                region.IdCustomerCountry = customerCountryRegionVM.IdCustomerCountry;                
+                try
+                {
+                    CustomerRegions region = new CustomerRegions();
+                    region.CustomerRegionName = customerCountryRegionVM.CustomerRegionName;
+                    region.IdCustomerCountry = customerCountryRegionVM.IdCustomerCountry;
 
-                _context.Add(region);   
-                await _context.SaveChangesAsync(); 
+                    _context.Add(region);
+                    await _context.SaveChangesAsync();
+
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
                 
-                return RedirectToAction(nameof(Index));
             }
 
             ViewData["IdCustomerCountry"] = new SelectList(_context.CustomerCountries, "IdCustomerCountry", "IdCustomerCountry");
@@ -152,14 +158,27 @@ namespace ManufacturaMVC.Controllers
             {
                 return NotFound();
             }
-
-            var customerRegions = await _context.CustomerRegions.FindAsync(id);
-            if (customerRegions == null)
+            else
             {
-                return NotFound();
+                try
+                {
+                    var customerRegions = await _context.CustomerRegions.FindAsync(id);
+
+                    if (customerRegions == null)
+                    {
+                        return NotFound();
+                    }
+
+                    ViewData["IdCustomerCountry"] = new SelectList(_context.CustomerCountries, "IdCustomerCountry", "IdCustomerCountry");
+
+                    return View(customerRegions);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    return NotFound();                    
+                }
             }
-            ViewData["CustomerCountryID"] = new SelectList(_context.CustomerCountries, "Id", "Id", customerRegions.IdCustomerCountry);
-            return View(customerRegions);
         }
 
         // POST: CustomerRegions/Edit/5
@@ -167,7 +186,7 @@ namespace ManufacturaMVC.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CustomerRegion,CustomerCountryID")] CustomerRegions customerRegions)
+        public async Task<IActionResult> Edit(int id, [Bind("IdCustomerRegion,CustomerRegionName,IdCustomerCountry")] CustomerRegions customerRegions)
         {
             if (id != customerRegions.IdCustomerRegion)
             {
@@ -177,8 +196,10 @@ namespace ManufacturaMVC.Controllers
             if (ModelState.IsValid)
             {
                 try
-                {
-                    _context.Update(customerRegions);
+                {                                     
+                    var region = _context.CustomerRegions.FirstOrDefault(c => c.IdCustomerRegion == customerRegions.IdCustomerRegion);
+                    region.CustomerRegionName = customerRegions.CustomerRegionName;
+                    _context.Update(region);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -194,7 +215,9 @@ namespace ManufacturaMVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerCountryID"] = new SelectList(_context.CustomerCountries, "Id", "Id", customerRegions.IdCustomerCountry);
+
+            ViewData["IdCustomerCountry"] = new SelectList(_context.CustomerCountries, "IdCustomerCountry", "IdCustomerCountry");
+
             return View(customerRegions);
         }
 
@@ -205,16 +228,28 @@ namespace ManufacturaMVC.Controllers
             {
                 return NotFound();
             }
-
-            var customerRegions = await _context.CustomerRegions
-                .Include(c => c.CustomerCountry)
-                .FirstOrDefaultAsync(m => m.IdCustomerCountry == id);
-            if (customerRegions == null)
+            else
             {
-                return NotFound();
-            }
+                try
+                {
+                    var customerRegions = await _context.CustomerRegions
+                            .Include(c => c.CustomerCountry)
+                            .FirstAsync(m => m.IdCustomerRegion == id);
 
-            return View(customerRegions);
+                    if (customerRegions == null)
+                    {
+                        return NotFound();
+                    }
+
+                    return View(customerRegions);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    return NotFound();
+                }
+
+            }            
         }
 
         // POST: CustomerRegions/Delete/5
@@ -222,15 +257,36 @@ namespace ManufacturaMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var customerRegions = await _context.CustomerRegions.FindAsync(id);
-            _context.CustomerRegions.Remove(customerRegions);
-            await _context.SaveChangesAsync();
+            try
+            {
+                var customerRegions = await _context.CustomerRegions.FindAsync(id);
+                _context.CustomerRegions.Remove(customerRegions);
+                await _context.SaveChangesAsync();
+                
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);               
+            }
+
             return RedirectToAction(nameof(Index));
         }
 
         private bool CustomerRegionsExists(int id)
         {
-            return _context.CustomerRegions.Any(e => e.IdCustomerRegion == id);
+            var regions = false;
+
+            try
+            {
+                regions = _context.CustomerRegions.Any(e => e.IdCustomerRegion == id);
+                
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);                
+            }
+            return regions;
         }
+
     }
 }
