@@ -33,7 +33,7 @@ namespace ManufacturaMVC.Controllers
             }
 
             var customerCities = await _context.CustomerCities
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.IdCustomerCity == id);
             if (customerCities == null)
             {
                 return NotFound();
@@ -87,7 +87,7 @@ namespace ManufacturaMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,CustomerCity,PostalCode")] CustomerCities customerCities)
         {
-            if (id != customerCities.Id)
+            if (id != customerCities.IdCustomerCity)
             {
                 return NotFound();
             }
@@ -101,7 +101,7 @@ namespace ManufacturaMVC.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CustomerCitiesExists(customerCities.Id))
+                    if (!CustomerCitiesExists(customerCities.IdCustomerCity))
                     {
                         return NotFound();
                     }
@@ -124,7 +124,7 @@ namespace ManufacturaMVC.Controllers
             }
 
             var customerCities = await _context.CustomerCities
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.IdCustomerCity == id);
             if (customerCities == null)
             {
                 return NotFound();
@@ -146,7 +146,7 @@ namespace ManufacturaMVC.Controllers
 
         private bool CustomerCitiesExists(int id)
         {
-            return _context.CustomerCities.Any(e => e.Id == id);
+            return _context.CustomerCities.Any(e => e.IdCustomerCity == id);
         }
     }
 }
