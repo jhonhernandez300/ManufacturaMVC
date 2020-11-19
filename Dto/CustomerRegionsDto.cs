@@ -10,9 +10,7 @@ namespace ManufacturaMVC.Dto
     {
         public int IdCustomerRegion { get; set; }
         public string CustomerRegionName { get; set; }
-
-
-        [ForeignKey("CustomerCountryId")]
+               
         public int IdCustomerCountry { get; set; }
         public CustomerCountriesDto CustomerCountryDto { get; set; }
 

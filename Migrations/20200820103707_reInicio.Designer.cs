@@ -4,14 +4,16 @@ using ManufacturaMVC.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ManufacturaMVC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200820103707_reInicio")]
+    partial class reInicio
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,6 +49,9 @@ namespace ManufacturaMVC.Migrations
                     b.Property<string>("CustomerCityName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("CustomerRegionIdCustomerRegion")
+                        .HasColumnType("int");
+
                     b.Property<int>("IdCustomerRegion")
                         .HasColumnType("int");
 
@@ -55,7 +60,7 @@ namespace ManufacturaMVC.Migrations
 
                     b.HasKey("IdCustomerCity");
 
-                    b.HasIndex("IdCustomerRegion");
+                    b.HasIndex("CustomerRegionIdCustomerRegion");
 
                     b.ToTable("CustomerCities");
                 });
@@ -498,9 +503,7 @@ namespace ManufacturaMVC.Migrations
                 {
                     b.HasOne("ManufacturaMVC.Models.CustomerRegions", "CustomerRegion")
                         .WithMany("CustomerCities")
-                        .HasForeignKey("IdCustomerRegion")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CustomerRegionIdCustomerRegion");
                 });
 
             modelBuilder.Entity("ManufacturaMVC.Models.CustomerRegions", b =>

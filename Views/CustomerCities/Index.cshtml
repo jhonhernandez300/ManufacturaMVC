@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ManufacturaMVC.Models.CustomerCities>
+﻿@model IEnumerable<ManufacturaMVC.ViewModels.CustomerRegionCityVM>
 
 @{
     ViewData["Title"] = "Index";
@@ -14,23 +14,29 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.IdCustomerCity)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.CustomerCityName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PostalCode)
+                @Html.DisplayNameFor(model => model.CustomerRegionName)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
-            <td>
+        <tr>            
+            <th>
+                @Html.DisplayFor(modelItem => item.IdCustomerCity)
+            </th>
+            <th>
                 @Html.DisplayFor(modelItem => item.CustomerCityName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PostalCode)
-            </td>
+            </th>
+            <th>
+                @Html.DisplayFor(modelItem => item.CustomerRegionName)
+            </th>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.IdCustomerCity">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.IdCustomerCity">Details</a> |

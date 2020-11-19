@@ -6,6 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ManufacturaMVC.Models;
+using AutoMapper;
+using ManufacturaMVC.ViewModels;
+using ManufacturaMVC.Dto;
+using ManufacturaMVC.Migrations;
 
 namespace ManufacturaMVC.Controllers
 {
@@ -19,28 +23,46 @@ namespace ManufacturaMVC.Controllers
         }
 
         // GET: CustomerCities
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.CustomerCities.ToListAsync());
+            List<CustomerRegionCityVM> countryCitiesList = new List<CustomerRegionCityVM>();
+
+            try
+            {
+                var data = (from c in _context.CustomerCities
+                            join r in _context.CustomerRegions
+                            on c.IdCustomerRegion equals r.IdCustomerRegion
+                            select new
+                            {
+                                r.IdCustomerRegion,
+                                r.CustomerRegionName,
+                                c.IdCustomerCity,
+                                c.CustomerCityName
+                            }).OrderBy(m => m.CustomerRegionName);
+
+                foreach (var item in data)
+                {
+                    CustomerRegionCityVM customerRegionCityVM = new CustomerRegionCityVM();
+                    customerRegionCityVM.IdCustomerRegion = item.IdCustomerRegion;
+                    customerRegionCityVM.CustomerRegionName = item.CustomerRegionName;
+                    customerRegionCityVM.IdCustomerCity = item.IdCustomerCity;
+                    customerRegionCityVM.CustomerCityName = item.CustomerCityName;
+                    countryCitiesList.Add(customerRegionCityVM);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            return View(countryCitiesList);
         }
 
         // GET: CustomerCities/Details/5
-        public async Task<IActionResult> Details(int? id)
+        /*public IActionResult Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var customerCities = await _context.CustomerCities
-                .FirstOrDefaultAsync(m => m.IdCustomerCity == id);
-            if (customerCities == null)
-            {
-                return NotFound();
-            }
-
-            return View(customerCities);
-        }
+            
+        }*/
 
         // GET: CustomerCities/Create
         public IActionResult Create()

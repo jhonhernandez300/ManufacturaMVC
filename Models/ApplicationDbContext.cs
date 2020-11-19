@@ -76,7 +76,8 @@ namespace ManufacturaMVC.Models
 
             modelBuilder.Entity<CustomerCities>()
            .HasOne(p => p.CustomerRegion)
-           .WithMany(b => b.CustomerCities);
+           .WithMany(b => b.CustomerCities)
+           .HasForeignKey(t => t.IdCustomerRegion);
 
             modelBuilder.Entity<Customers>()
            .HasOne(p => p.CustomerCity)

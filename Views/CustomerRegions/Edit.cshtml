@@ -1,4 +1,5 @@
-﻿@model ManufacturaMVC.Models.CustomerRegions
+﻿@*model ManufacturaMVC.Models.CustomerRegions*@
+@model ManufacturaMVC.ViewModels.CustomerCountryRegionVM
 
 @{
     ViewData["Title"] = "Edit";
@@ -21,9 +22,9 @@
                 <span asp-validation-for="CustomerRegionName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="IdCustomerCountry" class="control-label"></label>
-                <select asp-for="IdCustomerCountry" class="form-control" asp-items="ViewBag.IdCustomerCountry"></select>
-                <span asp-validation-for="IdCustomerCountry" class="text-danger"></span>
+                <label asp-for="CustomerCountryName" class="control-label"></label>
+                <select asp-for="CustomerCountryName" class="form-control" asp-items="ViewBag.CustomerCountryName"></select>
+                <span asp-validation-for="CustomerCountryName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
