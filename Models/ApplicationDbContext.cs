@@ -47,7 +47,7 @@ namespace ManufacturaMVC.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Categories>().HasKey(m => m.Id);
-            modelBuilder.Entity<CustomerCities>().HasKey(m => m.Id);
+            modelBuilder.Entity<CustomerCities>().HasKey(m => m.IdCustomerCity);
             modelBuilder.Entity<CustomerCountries>().HasKey(m => m.IdCustomerCountry);
             modelBuilder.Entity<CustomerRegions>().HasKey(m => m.IdCustomerRegion);
             modelBuilder.Entity<Customers>().HasKey(m => m.Id);
